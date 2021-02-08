@@ -98,12 +98,13 @@ const  filterdata =  (list, input)=> {
 
    for(let i = 0; i < list.length; i++)
    {
-      let student = list[i];
-      let studentNames = student.name.last + " "+ student.name.first;
+      let studentlist = list[i];
+      let studentNames = studentlist.name.last + " "+ studentlist.name.first;
       let firstAndLast = studentNames.toLowerCase();
-      if(firstAndLast.includes(input.toLowerCase()) )
+      let userInput = input.toLowerCase();
+      if(firstAndLast.includes(userInput) )
       {
-         inputSearch.push(student);
+         inputSearch.push(studentlist);
          showPage(inputSearch,1);
          addPagination(inputSearch);  
       }
@@ -114,11 +115,6 @@ const  filterdata =  (list, input)=> {
 SearchIcon.addEventListener('keyup', ()=> {
    filterdata(data, valueInput.value);
 });
-
-SearchIcon.addEventListener('click', ()=> {
-   filterdata(data, valueInput.value);
-});
-
 
 // Call functions
 showPage(data,1);
