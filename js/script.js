@@ -1,6 +1,6 @@
 /*
-Treehouse Techdegree:
-FSJS Project 2 - Data Pagination and Filtering
+   Treehouse Techdegree:
+   FSJS Project 2 - Data Pagination and Filtering
 */
 
 const studentList = document.querySelector(".student-list");
@@ -17,13 +17,15 @@ For assistance:
  /*
       Dynamic Search Bar
    */
-  const theHeader = document.querySelector(".header");
+  const theHeader = document.querySelector(`.header`);
+
   const searchBar = `<label for="search" class="student-search">
                        <input id="search" placeholder="Search by name...">
                        <button type="button">
                           <img src="img/icn-search.svg" alt = "Search icon">
                        </button>
-                    </label>`;  
+                    </label>`;
+
   theHeader.insertAdjacentHTML(`beforeend`, searchBar);
 
 /*
@@ -36,7 +38,6 @@ const showPage = (list, page)=> {
    let startIndex = (page * listPerPage ) - listPerPage;
    let endIndex = (page * listPerPage) - 1 ; 
    studentList.innerHTML = "";
-
 
    //generates students by looping through given data.
    for(let i = 0; i < list.length; i++) {
@@ -53,7 +54,7 @@ const showPage = (list, page)=> {
                                     <span class="date">Joined ${studentData.registered.date}</span>
                                  </div>
                               </li>`;
-         studentList.insertAdjacentHTML('beforeend',listElements);
+         studentList.insertAdjacentHTML('beforeend', listElements);
       }
    }
 }
@@ -79,42 +80,48 @@ const addPagination = (list)=> {
    let paginationButton = document.querySelectorAll("li > button");
    paginationButton[0].className = "active";
 
-
    // generates the a new list whenever a button is trickered.
    linkList.addEventListener("click", (event)=> {
-      
+
       let eventTarget = event.target;
+
       // checks the condition,then genarates studentlist.
-      if (eventTarget.tagName === 'BUTTON') {
+      if (eventTarget.tagName === 'BUTTON')
+      {
          showPage(data, eventTarget.textContent);
+   
+         // removes all pre-existing "active" classes.
+         for(let i = 0; i < paginationButton.length; i++) {
+            paginationButton[i].classList.remove("active");
+         }
+
+         // applies active class to the spacified target.
+         eventTarget.className = "active";
       }
-      // removes all pre-existing "active" classes.
-      for(let i = 0; i < paginationButton.length; i++) {
-         paginationButton[i].classList.remove("active");
-      }
-     
-      // applies active class to the spacified target.
-      eventTarget.className = "active";
    });
- 
 }
+
+// Call functions
+showPage(data,1);
+addPagination(data);
 
 /* 
    selects both searchi icon and input.
 */
-const SearchIcon = document.querySelector(".student-search");
-const valueInput = SearchIcon.querySelector("#search");
-let inputSearch = [];
+const SearchIcon = document.querySelector(".student-search > button");
+const valueInput = document.querySelector(".student-search > input");
+// let parsedInputValue = 
 
+let inputSearch = [];
 
 // filters data according to the UserInput.
 const filterdata =  (list, input)=> {
    // checks the userInput and filters list according given data.
-   if (valueInput.value.length !== 0) {
+   if (input.length !== 0) {
       for(let i = 0; i < list.length; i++)
       {
          let studentData = list[i];
-         let studentNames = studentData.name.last + " "+ studentData.name.first;
+         let studentNames = studentData.name.last + " " + studentData.name.first;
 
          let firstAndLast = studentNames.toLowerCase();
          let userInput = input.toLowerCase();
@@ -122,43 +129,41 @@ const filterdata =  (list, input)=> {
          if( firstAndLast.includes(userInput) )
          {
             inputSearch.push(studentData);
-         } 
-      }
+            addPagination(inputSearch);
+            // generates new list and pagination.
+            showPage(inputSearch, 1);
+         } else {
+               studentList.innerHTML = `<p class = "no-results">No Results, found </p> `;
+               linkList.innerHTML = "";
+         }
 
-      // generates new list and pagination.
-      showPage(inputSearch,1);
-      addPagination(inputSearch);
+      }
      
-   }
-      
+    } else {
       // Call functions
-      // studentList.innerHTML = `<p class = "no-results">No Results, found </p> `;
-      // linkList.innerHTML = "";
-     
-   
+      showPage(data,1);
+      addPagination(data);
+   }
 }
 
-
 // calls filter funtion on keyup event
-SearchIcon.addEventListener('keyup', ()=> {
+valueInput.addEventListener('keyup', ()=> {
    filterdata(data, valueInput.value);
    // addPagination(data);
-
 });
 
 // calls filter funtion on click event
 SearchIcon.addEventListener("click", (e)=> {
    e.preventDefault();
    filterdata(data, valueInput.value);
-})
+});
 
 
 
 
 
-// Call functions
-showPage(data,1);
-addPagination(data);
+
+
 
 
 
