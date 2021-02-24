@@ -5,7 +5,6 @@
 
 const studentList = document.querySelector(".student-list");
 const linkList = document.querySelector(".link-list");
-
 const listPerPage = 9;
 
 /*
@@ -72,7 +71,6 @@ const addPagination = (list)=> {
    for(let i = 1; i <= numberOfpagination; i++) {
        paginationButtons += `<li> <button type="button">${i}</button> </li>`;
    }
-  
    // appends generated list in a preceeding order.
    linkList.insertAdjacentHTML('beforeend', paginationButtons);
 
@@ -82,19 +80,15 @@ const addPagination = (list)=> {
 
    // generates the a new list whenever a button is trickered.
    linkList.addEventListener("click", (event)=> {
-
       let eventTarget = event.target;
-
       // checks the condition,then genarates studentlist.
       if (eventTarget.tagName === 'BUTTON')
       {
-         showPage(data, eventTarget.textContent);
-   
+         showPage(list, eventTarget.textContent);
          // removes all pre-existing "active" classes.
          for(let i = 0; i < paginationButton.length; i++) {
             paginationButton[i].classList.remove("active");
          }
-
          // applies active class to the spacified target.
          eventTarget.className = "active";
       }
@@ -105,17 +99,10 @@ const addPagination = (list)=> {
 showPage(data,1);
 addPagination(data);
 
-/* 
-   selects both searchi icon and input.
-*/
-const SearchIcon = document.querySelector(".student-search > button");
-const valueInput = document.querySelector(".student-search > input");
-// let parsedInputValue = 
-
-let inputSearch = [];
 
 // filters data according to the UserInput.
 const filterdata =  (list, input)=> {
+   let inputSearch = [];
    // checks the userInput and filters list according given data.
    if (input.length !== 0) {
       for(let i = 0; i < list.length; i++)
@@ -136,15 +123,20 @@ const filterdata =  (list, input)=> {
                studentList.innerHTML = `<p class = "no-results">No Results, found </p> `;
                linkList.innerHTML = "";
          }
-
       }
-     
     } else {
       // Call functions
       showPage(data,1);
       addPagination(data);
    }
 }
+
+
+/* 
+   selects both searchi icon and input.
+*/
+const SearchIcon = document.querySelector(".student-search > button");
+const valueInput = document.querySelector(".student-search > input");
 
 // calls filter funtion on keyup event
 valueInput.addEventListener('keyup', ()=> {
